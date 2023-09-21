@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Post({item, handleDelete}) {
@@ -23,7 +23,7 @@ export default function Post({item, handleDelete}) {
         name="remove"
         size={30}
         color="firebrick"
-        onPress={e => handleDelete(item.id, e)}
+        onPress={() => handleDelete(item.id)}
       />
     </View>
   );
