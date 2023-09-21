@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Alert} from 'react-native';
 import axios from 'axios';
 import Post from './Post';
-import AddPost from './AddPost';
+import ManagePost from './ManagePost';
 
 export default function Body() {
   const [posts, setPosts] = useState([]);
+  const [post, setPost] = useState({});
 
   async function request() {
     try {
@@ -18,6 +19,7 @@ export default function Body() {
   }
 
   async function handleDelete(id) {
+    console.log(id, 'id');
     const res = await axios.delete('http://192.168.69.235:3000/posts/' + id);
 
     setPosts(res.data);
@@ -27,9 +29,16 @@ export default function Body() {
     if (payload.title && payload.body) {
       const res = await axios.post('http://192.168.69.235:3000/posts', payload);
 
+      if (Object.keys(post).length > 0) Alert.alert('Post updated!');
+      else Alert.alert('New post added!');
+
       setPosts(res.data);
+
+      return true;
     } else {
       Alert.alert('All fields are required!');
+
+      return false;
     }
   }
 
@@ -39,13 +48,13 @@ export default function Body() {
 
   return (
     <View style={styles.container}>
-      <AddPost handleSubmit={handleSubmit} />
+      <ManagePost post={post} handleSubmit={handleSubmit} setPost={setPost} />
       <Text style={styles.text}>Posts</Text>
       <FlatList
         data={posts}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
-          <Post item={item} handleDelete={handleDelete} />
+          <Post item={item} handleDelete={handleDelete} setPost={setPost} />
         )}
       />
     </View>

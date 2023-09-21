@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function Post({item, handleDelete}) {
+export default function Post({item, handleDelete, setPost}) {
   return (
     <View style={styles.container}>
       <View style={styles.list}>
@@ -19,12 +19,20 @@ export default function Post({item, handleDelete}) {
           <Text style={styles.body}>{item.body}</Text>
         </Text>
       </View>
-      <Icon
-        name="remove"
-        size={30}
-        color="firebrick"
-        onPress={() => handleDelete(item.id)}
-      />
+      <View>
+        <Icon
+          name="remove"
+          size={30}
+          color="firebrick"
+          onPress={() => handleDelete(item.id)}
+        />
+        <Icon
+          name="edit"
+          size={30}
+          color="dodgerblue"
+          onPress={() => setPost(item)}
+        />
+      </View>
     </View>
   );
 }
